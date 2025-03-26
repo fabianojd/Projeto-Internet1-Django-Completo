@@ -1,0 +1,14 @@
+% extends "master.html" %}
+
+{% block title %}
+  Detalhes sobre {{ mymateriais.nome }} {{ mymateriais.cor }}
+{% endblock %}
+
+{% block content %}
+  <h1>{{ mymateriais.nome }} {{ mymateriais.cor }}</h1>
+
+  <p>Código: {{ mymateriais.codigo }}</p>
+  <p>Inclusão: {{ mymateriais.inclusao }}</p>
+
+  <p>Voltar para <a href="/materiais">Materiais</a></p>
+{% endblock %}

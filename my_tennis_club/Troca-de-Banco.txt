@@ -1,0 +1,47 @@
+Exportação sqllite -> MariaDB
+
+Exportação:
+py manage.py dumpdata --natural-primary --natural-foreign --indent 4 > dados.json
+
+Codificação UTF-8
+type dados.json > dados_utf8.json
+
+Importação
+py manage.py loaddata dados_utf8.json
+
+
+Erro - 1kb
+python -c "import sqlite3; print(sqlite3.connect('db.sqlite3').iterdump())" > dump.sql
+
+
+OK
+Opção 2: Instalar SQLite no Windows
+Se quiser usar o comando sqlite3, siga estes passos:
+
+Baixe o SQLite:
+
+Acesse: https://www.sqlite.org/download.html
+Baixe o "Precompiled Binaries for Windows" → sqlite-tools-win-x86-*.zip
+Extraia o ZIP
+
+Extraia o conteúdo (por exemplo, sqlite3.exe) em um local acessível, como C:\sqlite.
+Adicione ao PATH
+
+No Windows, pesquise por "Variáveis de Ambiente".
+Em "Variáveis do Sistema", edite Path e adicione C:\sqlite.
+Teste no terminal:
+
+sh
+Copiar
+Editar
+sqlite3 --version
+
+
+
+OK
+sqlite3 db.sqlite3 .dump > dump.sql
+
+Importar para MariaDB
+
+
+

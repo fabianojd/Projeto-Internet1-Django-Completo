@@ -1,0 +1,41 @@
+{% extends "master.html" %}
+
+{% block title %}
+  My Tennis Club - Lista de Materiais
+{% endblock %}
+
+{% block content %}
+  <div class="navigation-links">
+    <a href="/" class="btn-link" title="Página Inicial">Home</a>
+    <a href="/materiais" class="btn-link" title="Materiais">Materiais</a>
+    <a href="/admin" class="btn-link" target="_blank" title="Área Administrativa">Administração</a>
+  </div>
+
+  <h1>Membros</h1>
+
+  <table class="materiais-table">
+    <thead>
+      <tr>
+        <th>Nome</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for x in mymateriais %}
+        <tr data-href="details/{{ x.id }}" class="clickable-row">
+          <td>
+            {{ x.firstname }} {{ x.lastname }}
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <script>
+    // Tornar as linhas clicáveis
+    document.querySelectorAll('.clickable-row').forEach(row => {
+      row.addEventListener('click', () => {
+        window.location.href = row.getAttribute('data-href');
+      });
+    });
+  </script>
+{% endblock %}

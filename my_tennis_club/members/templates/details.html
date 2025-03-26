@@ -1,0 +1,45 @@
+{% extends "master.html" %}
+
+{% block title %}
+  Detalhes sobre {{ mymember.firstname }} {{ mymember.lastname }}
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="card shadow-sm border-0">
+        <div class="card-header bg-primary text-white">
+            <h2 class="mb-0">Detalhes do Membro</h2>
+        </div>
+        <div class="card-body">
+            <h3 class="text-primary">{{ mymember.firstname }} {{ mymember.lastname }}</h3>
+            <h5 class="text-primary">Plano: {{ mymember.plan }} </h5>
+            {% if mymember.foto %}
+            <p><img src="{{ mymember.foto.url }}" width="100" </p>
+            {% endif %}
+            {% if mymember.phone %}
+                {% with phone=mymember.phone|stringformat:"s" %}
+                    <p><strong>Telefone:</strong> ({{ phone|slice:":2" }}) {{ phone|slice:"2:7" }}-{{ phone|slice:"7:" }}</p>
+                {% endwith %}
+            {% endif %}
+            <!-- <p><strong>Membro desde:</strong> {{ mymember.joined_date }}</p> -->
+            {% if mymember.joined_date %}
+                <p><strong>Membro desde:</strong> {{ mymember.joined_date|date:"d/m/Y" }}</p>
+            {% endif %}
+            {% if mymember.documento %}
+                <p><strong>Documento:</strong></br>
+                    {% if mymember.documento.url|lower|slice:"-4:" == ".jpg" or mymember.documento.url|lower|slice:"-4:" == ".png" %}
+                        <img src="{{ mymember.documento.url }}" width="100">
+                    {% else %}
+                        <a href="{{ mymember.documento.url }}" target="_blank" class="btn btn-outline-primary">
+                            <i class="fas fa-file"></i> Baixar Documento
+                        </a>
+            {% endif %}
+                </p>
+            {% endif %}
+            <a href="/members" class="btn btn-secondary mt-3">
+                <i class="fas fa-arrow-left"></i> Voltar para Membros
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

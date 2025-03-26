@@ -1,0 +1,17 @@
+{% extends "master.html" %}
+
+{% block title %}
+    Página Inicial
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="text-center">Bem-vindo ao My Tennis Club 🎾</h1>
+    <p class="text-center">Gerencie seus membros de forma fácil e rápida.</p>
+    <div class="text-center">
+        <a href="{% url 'members' %}" class="btn btn-primary btn-lg">
+            <i class="fas fa-users"></i> Ver Membros
+        </a>
+    </div>
+</div>
+{% endblock %}

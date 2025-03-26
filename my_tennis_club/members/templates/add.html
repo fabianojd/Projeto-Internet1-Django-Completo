@@ -1,0 +1,100 @@
+{% extends "master.html" %}
+
+{% block title %}
+    Novo Membro
+{% endblock %}
+
+{% block content %}
+<div class="card mt-4">
+    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+        <h2 class="mb-0">Adicionar Novo Membro</h2>
+        <a href="{% url 'members' %}" class="btn btn-light"><i class="fa-solid fa-arrow-left"></i> Voltar</a>
+    </div>
+    <div class="card-body">
+        <form action="{% url 'addrecord' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <div class="mb-3">
+                <label for="plan" class="form-label">Plano:</label>
+                <select id="plan" name="plan" class="form-select">
+                    {% for x in myplans %}
+                    <option value="{{ x.id }}">{{ x.title }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label for="firstName" class="form-label">Primeiro Nome:</label>
+                <input type="text" id="firstName" name="first" class="form-control" required autocomplete="off">
+            </div>
+
+            <div class="mb-3">
+                <label for="lastName" class="form-label">Último Nome:</label>
+                <input type="text" id="lastName" name="last" class="form-control" required autocomplete="off">
+            </div>
+
+            <div class="mb-3">
+                <label for="phone" class="form-label">Telefone:</label>
+                <input type="text" id="phone" name="phone" class="form-control" required autocomplete="off" maxlength="15">
+            </div>
+
+            <div class="mb-3">
+                <label for="joined_date" class="form-label">Data de Adesão:</label>
+                <input type="date" id="joined_date" name="joined_date" class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="foto" class="form-label">Foto:</label>
+                <input type="file" id="foto" name="foto" class="form-control">
+            </div>
+            <div class="mb-3">
+                <label for="documento" class="form-label">Documento (PDF ou Imagem):</label>
+                <input type="file" id="documento" name="documento" class="form-control">
+            </div>
+            <div class="d-flex justify-content-between">
+                <button type="submit" class="btn btn-success"><i class="fa-solid fa-check"></i> Cadastrar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    // Coloca o foco no campo "Plano" automaticamente ao carregar a página
+    document.addEventListener("DOMContentLoaded", function() {
+        document.getElementById('plan').focus();
+    });
+
+document.addEventListener("DOMContentLoaded", function() {
+    const phoneInput = document.getElementById("phone");
+
+    phoneInput.addEventListener("input", function(event) {
+        let value = phoneInput.value.replace(/\D/g, ""); // Remove tudo que não for número
+
+        if (value.length > 11) {
+            value = value.slice(0, 11); // Limita o máximo de 11 dígitos
+        }
+
+        if (value.length > 10) {
+            // Celular: (XX) XXXXX-XXXX
+            value = value.replace(/^(\d{2})(\d{5})(\d{4})$/, "($1) $2-$3");
+        } else if (value.length > 6) {
+            // Fixo: (XX) XXXX-XXXX
+            value = value.replace(/^(\d{2})(\d{4})(\d{4})$/, "($1) $2-$3");
+        } else if (value.length > 2) {
+            value = value.replace(/^(\d{2})(\d{1,5})$/, "($1) $2");
+        } else if (value.length > 0) {
+            value = value.replace(/^(\d{1,2})$/, "($1");
+        }
+
+        phoneInput.value = value;
+    });
+
+    phoneInput.addEventListener("blur", function() {
+        // Remove a máscara antes de enviar para o backend
+        phoneInput.value = phoneInput.value.replace(/\D/g, "");
+    });
+});
+</script>
+
+
+{% endblock %}
